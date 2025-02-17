@@ -1,0 +1,6 @@
+apiVersion: v2
+name: to-do-app
+description: A simple TODO application written in Go
+version: 0.1.0
+appVersion: "1.0"
+

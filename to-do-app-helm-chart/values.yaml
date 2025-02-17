@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: yourdockerhubusername/to-do-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: to-do-app
+  type: LoadBalancer
+  port: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: to-do-app.local
+      paths: []
+  tls: []
+
+resources: {}
+

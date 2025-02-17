@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-to-do-app
+  labels:
+    app: {{ .Release.Name }}-to-do-app
+spec:
+  selector:
+    app: {{ .Release.Name }}-to-do-app
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+  type: {{ .Values.service.type }}
+

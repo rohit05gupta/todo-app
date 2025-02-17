@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  todo-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
+
