@@ -25,3 +25,10 @@
 **Run the application by deploying the helm chart**
   - run helm install to-do-app .\to-do-app-0.1.0.tgz to install the helm chart
   - access the service on port 8080
+
+Below is the sample curl call to create a todo
+curl -X POST http://localhost:8080/todos \
+  -H "Content-Type: multipart/form-data" \
+  -F "title=My First Task" \
+  -F "description=This is a test task" \
+  -F "file_data=@/path/to/file.pdf"
