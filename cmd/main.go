@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"os"
 
 	"to-do-app/internal/todo"
 
@@ -12,8 +13,8 @@ import (
 
 func main() {
 	// Set up the database connection
-	connStr := "user=postgres dbname=todoapp sslmode=disable password=pgsql host=localhost port=5432"
-	// connStr := os.Getenv("DATABASE_URL")
+	// connStr := "user=postgres dbname=todoapp sslmode=disable password=pgsql host=localhost port=5432"
+	connStr := os.Getenv("DATABASE_URL")
 	if connStr == "" {
 		log.Fatal("DATABASE_URL is not set")
 	}
