@@ -1,21 +1,26 @@
-# Use Golang base image
-FROM golang:1.20-alpine as builder
+# Use Go base image
+FROM golang:1.20-alpine
 
+# Install curl and other necessary dependencies
+RUN apk add --no-cache curl
+
+# Set working directory
 WORKDIR /app
-COPY . .
+
+# Copy go mod files
+COPY go.mod go.sum ./
 
 # Install dependencies
 RUN go mod tidy
 
-# Build the application
-RUN go build -o /to-do-app ./cmd/main.go
+# Copy the rest of the application
+COPY . .
 
-# Create a smaller image for runtime
-FROM alpine:latest
-RUN apk update && apk add curl
-WORKDIR /root/
-COPY --from=builder /to-do-app .
-
+# Expose the application port
 EXPOSE 8080
-CMD ["./to-do-app"]
 
+# Build the Go application
+RUN go build -o app ./cmd/main.go
+
+# Run the application
+CMD ["./app"]

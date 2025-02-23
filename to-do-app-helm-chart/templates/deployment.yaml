@@ -1,24 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-to-do-app
+  name: {{ .Release.Name }}-todo-app
   labels:
-    app: {{ .Release.Name }}-to-do-app
+    app: {{ .Release.Name }}-todo-app
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-to-do-app
+      app: {{ .Release.Name }}-todo-app
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-to-do-app
+        app: {{ .Release.Name }}-todo-app
     spec:
       containers:
-        - name: to-do-app
-          image: to-do-app
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: 8080
-          resources: {{ .Values.resources | toYaml  | nindent 12 }}
-
+      - name: {{ .Release.Name }}-todo-app
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "{{ .Release.Name }}-postgresql"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-secret
+              key: password

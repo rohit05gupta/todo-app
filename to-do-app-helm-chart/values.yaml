@@ -1,22 +1,24 @@
 replicaCount: 1
 
 image:
-  repository: yourdockerhubusername/to-do-app
+  repository: my-todo-app-app
   tag: latest
   pullPolicy: IfNotPresent
 
 service:
-  name: to-do-app
-  type: LoadBalancer
+  type: ClusterIP
   port: 8080
+
+postgresql:
+  image: postgres
+  tag: 15
+  user: postgres
+  password: pgsql
+  database: todoapp
+  servicePort: 5432
+  storageSize: 1Gi
 
 ingress:
   enabled: false
   annotations: {}
-  hosts:
-    - host: to-do-app.local
-      paths: []
-  tls: []
-
-resources: {}
-
+  host: my-todo-app.local
